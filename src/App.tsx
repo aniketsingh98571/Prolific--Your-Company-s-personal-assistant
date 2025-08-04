@@ -51,7 +51,6 @@ const App = () => {
       setIsSearching(true);
       const websiteResp = await getWebsiteData();
       const organicResults = websiteResp.organic;
-      console.log(organicResults, "resp");
       const responseJoin = organicResults
         .map((result: { title: string; link: string; snippet: string }) => ({
           title: result.title,
@@ -64,8 +63,6 @@ const App = () => {
         )
         .join("\n");
       // Simulate search process
-      console.log(responseJoin, "join");
-      // return;
 
       const { text } = await generateText({
         model: google("gemini-2.5-flash"),
@@ -73,7 +70,7 @@ const App = () => {
           "You are a company analysis AI assistant. Your task is to analyze and summarize information about companies/organizations ONLY. If the provided content is NOT about a company, organization, business, or corporate entity, you MUST respond with: 'ERROR: OFF-TOPIC CONTENT - This content does not appear to be about a company or organization. Please provide information about a specific company, business, or organization to analyze.' Do not provide summaries for weather, news, general websites, politics or non-business content.",
         prompt: `Please analyze the following content and provide a company summary if it's about a business/organization, or indicate if it's off-topic: ${responseJoin}`,
       });
-      console.log(text, "yeha final answer");
+
       setFinalAnswer({
         summary: text,
         relatedSearches: websiteResp.relatedSearches
@@ -86,7 +83,6 @@ const App = () => {
       });
       setIsSearching(false);
       // Here you would typically make an API call
-      console.log("Searching for:", query);
     }
   };
 
